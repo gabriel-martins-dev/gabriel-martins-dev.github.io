@@ -11,7 +11,7 @@
     "react-dom": "latest",
     "react-scripts-ts": "latest"
   },
-  "homepage" : "https://gabriel-martins-dev.github.io/portifolio",
+  "homepage" : "https://gabriel-martins-dev.github.io/build",
   "devDependencies": {
     "@types/jest": "*",
     "@types/node": "*",
