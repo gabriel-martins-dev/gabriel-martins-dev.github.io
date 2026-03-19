@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriel Martins - Game Development Portfolio</title>
+    <style>
+        /* --- Minimalist Gallery Theme --- */
+        :root {
+            --bg-color: #FFFFFF;
+            --text-main: #333333;
+            --text-muted: #888888;
+            --text-light: #AAAAAA;
+            --accent: #000000;
+            --tag-bg: #F4F4F5;
+            --tag-text: #333333;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 300;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-muted);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+
+        .about-section {
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out 0.15s forwards;
+        }
+
+        .container {
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out 0.3s forwards;
+        }
+
+        .contact-section, footer {
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out 0.45s forwards;
+        }
+
+        /* --- Header Styles --- */
+        header {
+            text-align: center;
+            padding: 6rem 1rem 1rem; 
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: var(--text-main);
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        header h2 {
+            margin: 10px 0 0;
+            font-weight: 300;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* --- About Section (Top) --- */
+        .about-section {
+            max-width: 800px;
+            margin: 0 auto 4rem auto; 
+            text-align: center;
+            padding: 0 1.5rem;
+        }
+
+        .about-section p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin: 0; 
+        }
+
+        /* --- Gallery Grid Layout --- */
+        .container {
+            max-width: 1250px; 
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem 3rem; 
+            padding-bottom: 2rem;
+        }
+
+        @media(min-width: 768px) {
+            .container { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media(min-width: 1024px) {
+            .container { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* --- Gallery Items --- */
+        .game-section {
+            display: flex;
+            flex-direction: column; 
+            text-align: center; 
+        }
+
+        .media-container {
+            background: #F9F9F9;
+            aspect-ratio: 16 / 9; 
+            position: relative;
+            display: block;
+            text-decoration: none;
+            overflow: hidden;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .media-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .media-container:hover img {
+            transform: scale(1.03);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px; 
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .media-container:hover .play-button {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        .play-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #000;
+            margin-left: 4px; 
+        }
+
+        /* Force play button to be visible on mobile devices */
+        @media(max-width: 768px) {
+            .play-button {
+                opacity: 0.75 !important;
+                transform: translate(-50%, -50%) scale(1) !important;
+            }
+        }
+
+        /* --- Typography for Gallery Items --- */
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .content h3 {
+            margin: 0 0 0.2rem 0;
+            color: var(--text-main);
+            font-size: 1.25rem; 
+            font-weight: 600;
+            font-style: italic; 
+        }
+
+        .studio {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .tag {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-width: 95%; 
+        }
+
+        /* Minimalist Links */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: auto; 
+        }
+
+        .btn {
+            background: none;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            border: none;
+            border-bottom: 1px solid var(--text-light);
+            padding: 0 0 2px 0;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .btn:hover {
+            border-color: var(--text-main);
+        }
+
+        /* --- Contact Section (Bottom) --- */
+        .contact-section {
+            text-align: center;
+            padding: 4rem 1.5rem 1rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .contact-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .contact-links a:hover {
+            border-bottom: 1px solid var(--accent);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        /* --- Modal Lightbox Styles --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95); 
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 1100px;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .modal-content iframe,
+        .modal-content video {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none; 
+            outline: none;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: var(--text-main);
+            font-size: 40px;
+            font-weight: 300;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Gabriel Martins</h1>
+        <h2>Senior Game Developer</h2>
+    </header>
+
+    <div class="about-section">
+        <p>With 8+ years of experience in the game industry, working remotely with studios all over the world. <br> Specializes in scaling architecture, multiplayer, optimization, refactoring, and gameplay. </p>
+    </div>
+
+    <div class="container">
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('youtube', 'JJE7IgojFxQ')">
+                <img src="images/everbright-thumbnail.jpg" alt="Everbright Gameplay Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Everbright</h3>
+                <div class="studio">Made On Earth Games</div>
+                <div class="tags">
+                    <span class="tag">4X Strategy RPG</span>
+                    <span class="tag">Web & Mobile</span>
+                    <span class="tag">Multiplayer</span>
+                </div>
+                <div class="description">Architected a robust Hot Update System for mobile platforms and engineered core multiplayer server logic and client gameplay systems, synchronization stability for concurrent users.</div>
+                <div class="btn-group">
+                    <a href="https://play.google.com/store/apps/details?id=com.madeonearthgames.everbright" target="_blank" rel="noopener noreferrer" class="btn">Play Store</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('youtube', 'd6zvBdUDMPY')">
+                <img src="https://img.youtube.com/vi/d6zvBdUDMPY/maxresdefault.jpg" alt="Eco Gameplay Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Eco</h3>
+                <div class="studio">Strange Loop Games</div>
+                <div class="tags">
+                    <span class="tag">Multiplayer Survival</span>
+                    <span class="tag">Voxel Simulation</span>
+                    <span class="tag">PC (Steam)</span>
+                </div>
+                <div class="description">Optimized multiplayer synchronization and deterministic gameplay systems for an open-world environment. Developed complex physics simulations for land and water vehicles.</div>
+                <div class="btn-group">
+                    <a href="https://store.steampowered.com/app/382310/Eco/" target="_blank" rel="noopener noreferrer" class="btn">Steam</a>
+                    <a href="https://play.eco/" target="_blank" rel="noopener noreferrer" class="btn">Website</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('youtube', 'DLkBhRBJZs4')">
+                <img src="https://img.youtube.com/vi/DLkBhRBJZs4/maxresdefault.jpg" alt="BeachHead 2020 Gameplay Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>BeachHead 2020</h3>
+                <div class="studio">MainLeaf</div>
+                <div class="tags">
+                    <span class="tag">VR Action Shooter</span>
+                    <span class="tag">PC/VR (Steam)</span>
+                </div>
+                <div class="description">Refactored core legacy systems and optimized memory allocation, performance and rendering pipelines for a VR Multiplayer Shooter, achieving stable frame rates required for VR comfort.</div>
+                <div class="btn-group">
+                    <a href="https://store.steampowered.com/app/1288790/BeachHead/" target="_blank" rel="noopener noreferrer" class="btn">Steam</a>
+                    <a href="https://beachhead.com/" target="_blank" rel="noopener noreferrer" class="btn">Website</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('youtube', 'UeWCGB3-G3Q')">
+                <img src="https://img.youtube.com/vi/UeWCGB3-G3Q/maxresdefault.jpg" alt="Gunstars Gameplay Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Gunstars</h3>
+                <div class="studio">Monomyto</div>
+                <div class="tags">
+                    <span class="tag">Battle Royale</span>
+                    <span class="tag">Mobile (iOS/Android)</span>
+                </div>
+                <div class="description">Spearheaded the development of a mobile Multiplayer Shooter. Designed the project architecture and managed Cloud Integration, ensuring scalable backend performance for live matchmaking.</div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('youtube', 'XeyXdZPIibE')">
+                <img src="https://img.youtube.com/vi/XeyXdZPIibE/maxresdefault.jpg" alt="Kaze and the Wild Masks Gameplay Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Kaze and the Wild Masks</h3>
+                <div class="studio">Vox Studio</div>
+                <div class="tags">
+                    <span class="tag">2D Platformer</span>
+                    <span class="tag">PC & Consoles</span>
+                </div>
+                <div class="description">Executed Nintendo Switch Port, handling memory optimization, input mapping, and performance profiling.</div>
+                <div class="btn-group">
+                    <a href="https://store.steampowered.com/app/829280/Kaze_and_the_Wild_Masks/" target="_blank" rel="noopener noreferrer" class="btn">Steam</a>
+                    <a href="https://www.playkaze.com/" target="_blank" rel="noopener noreferrer" class="btn">Website</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('youtube', 'w0zQPBjQba4')">
+                <img src="https://img.youtube.com/vi/w0zQPBjQba4/maxresdefault.jpg" alt="Alphabeta Gameplay Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Alphabeta</h3>
+                <div class="studio">Vox Studio</div>
+                <div class="tags">
+                    <span class="tag">Investment Game</span>
+                    <span class="tag">PC & Mobile</span>
+                </div>
+                <div class="description">Led development, release, creation of tools, support, and documentation of a financial market game.</div>
+                <div class="btn-group">
+                    <a href="https://alphabeta.io/download" target="_blank" rel="noopener noreferrer" class="btn">Download App</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('drive', '1bMIpJIF8BNv8QYBiwGHy5zxp1xIyLXY9')">
+                <img src="images/letter-blast-thumbnail.jpg" alt="Letters Blast Gameplay">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Letters Blast</h3>
+                <div class="studio">Cupcake Entertainment</div>
+                <div class="tags">
+                    <span class="tag">Social Puzzle Game</span>
+                    <span class="tag">Web & Mobile</span>
+                </div>
+                <div class="description">Maintained the full stack architecture—including frontend, backend, and database structures—to support a high-traffic social online puzzle game.</div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('drive', '12c0Ycxhc_ZV9JxcjBudHc0lj0vChS9Vp')">
+                <img src="https://drive.google.com/thumbnail?id=12c0Ycxhc_ZV9JxcjBudHc0lj0vChS9Vp&sz=w1000" alt="Electrical Engineering Game Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Electrical Engineering Game</h3>
+                <div class="studio">2Mundos Inc</div>
+                <div class="tags">
+                    <span class="tag">Simulation</span>
+                    <span class="tag">Mobile</span>
+                </div>
+                <div class="description">Developed simulation, gameplay, UI, and editor customization. Delivered a finished product by refactoring the legacy code base and implementing critical updates.</div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('drive', '1AeYwoeAhEypCG-mQKj-GZ1plvUKW1Cdm')">
+                <img src="https://drive.google.com/thumbnail?id=1AeYwoeAhEypCG-mQKj-GZ1plvUKW1Cdm&sz=w1000" alt="Advergame Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Advergames</h3>
+                <div class="studio">2Mundos Inc</div>
+                <div class="tags">
+                    <span class="tag">Procedural Generation</span>
+                    <span class="tag">PC, Web & Mobile</span>
+                </div>
+                <div class="description">Developed procedural level generation, gameplay, particle effects, and simulation systems for 2 advergames for Pepsi (KeroCoco company).</div>
+            </div>
+        </section>
+
+        <section class="game-section">
+            <div class="media-container" onclick="openVideoModal('drive', '1v-pAlCoeTKSNIUh7feMjxcUmAxjmynSv')">
+                <img src="https://drive.google.com/thumbnail?id=1v-pAlCoeTKSNIUh7feMjxcUmAxjmynSv&sz=w1000" alt="Mini Games Video">
+                <div class="play-button"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="content">
+                <h3>Mini-Games</h3>
+                <div class="studio">2Mundos Inc</div>
+                <div class="tags">
+                    <span class="tag">Learning Game</span>
+                    <span class="tag">PC, Web & Mobile</span>
+                </div>
+                <div class="description">Developed gameplay, structured UI, and integrated SDKs, creating 5 typing games inside an MMO for a learning game.</div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="contact-section">
+        <div class="contact-links">
+            <a href="mailto:gabrielmartinsid@gmail.com">gabrielmartinsid@gmail.com</a>
+            <a href="https://www.linkedin.com/in/ggindri" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/gabriel-martins-dev" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Gabriel Martins. All rights reserved.
+    </footer>
+
+    <div id="videoModal" class="modal-overlay" onclick="closeVideoModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeVideoModal()">&times;</button>
+            <iframe id="videoIframe" allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
+            <video id="nativeVideo" controls controlsList="nodownload" autoplay></video>
+        </div>
+    </div>
+
+    <script>
+        function openVideoModal(platform, source) {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('videoIframe');
+            const nativeVideo = document.getElementById('nativeVideo');
+
+            if (platform === 'youtube') {
+                // Hide native video player, show iframe for YouTube
+                nativeVideo.style.display = 'none';
+                nativeVideo.pause();
+                nativeVideo.src = '';
+                
+                iframe.style.display = 'block';
+                // Standard YouTube embed with autoplay query
+                iframe.src = `https://www.youtube.com/embed/${source}?autoplay=1`;
+                
+            } else if (platform === 'drive') {
+                // Hide native video player, show iframe for Google Drive
+                nativeVideo.style.display = 'none';
+                nativeVideo.pause();
+                nativeVideo.src = '';
+                
+                iframe.style.display = 'block';
+                // Use the official, stable preview embed
+                iframe.src = `https://drive.google.com/file/d/${source}/preview`;
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const iframe = document.getElementById('videoIframe');
+            const nativeVideo = document.getElementById('nativeVideo');
+            
+            modal.style.display = 'none';
+            
+            iframe.src = ''; 
+            nativeVideo.pause();
+            nativeVideo.src = '';
+        }
+    </script>
+
+</body>
+</html>
